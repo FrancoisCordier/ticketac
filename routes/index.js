@@ -118,4 +118,23 @@ router.get("/cart", function (req, res) {
   res.render("cart", { session, myCart, totalCart });
 });
 
+router.get("/checkout", async function(req, res){
+
+  const myCart = req.session.cart;
+  const user = req.session.userInfo;
+
+  for(let item of myCart ){
+    var newOrder = await orderModel({
+      journey: item._id,
+      user: user.id,
+    });
+    const orderSaved = await newOrder.save()
+
+    console.log(orderSaved);
+  };
+  
+
+  res.redirect("/homepage");
+});
+
 module.exports = router;
