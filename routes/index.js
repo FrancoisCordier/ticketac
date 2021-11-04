@@ -83,7 +83,9 @@ router.post("/search", async function (req, res) {
   const to = req.body.to;
   const date = new Date(req.body.date);
 
-  console.log(date);
+  const results = await journeyModel.find({departure: from, arrival: to, date: date });
+  //console.log(results);
+  res.render("searchresult", {results});
 });
 
 module.exports = router;
