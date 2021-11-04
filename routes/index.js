@@ -83,9 +83,27 @@ router.post("/search", async function (req, res) {
   const to = req.body.to;
   const date = new Date(req.body.date);
 
-  const results = await journeyModel.find({departure: from, arrival: to, date: date });
+  const results = await journeyModel.find({
+    departure: from,
+    arrival: to,
+    date: date,
+  });
   //console.log(results);
-  res.render("searchresult", {results});
+  res.render("searchresult", { results, session: req.session.userInfo });
+});
+
+router.get("/add-to-cart", async function (req, res) {
+  const journeyId = req.query.resultId;
+
+  if (req.session.cart) {
+    req.session.cart.push(await journeyModel.findOne({ _id: journeyId }));
+  } else {
+    req.session.cart = [];
+    req.session.cart.push(await journeyModel.findOne({ _id: journeyId }));
+  }
+
+  console.log(req.session);
+  res.render("cart");
 });
 
 module.exports = router;
