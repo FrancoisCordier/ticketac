@@ -108,12 +108,17 @@ router.get("/add-to-cart", async function (req, res) {
 
 router.get("/cart", function (req, res) {
   const session = req.session;
+  if(!req.session.cart){
+    req.session.cart = [];
+  }
   const myCart = req.session.cart;
   let totalCart = 0;
 
   for (let item of myCart) {
     totalCart += item.price;
   }
+
+  console.log(session);
 
   res.render("cart", { session, myCart, totalCart });
 });
@@ -128,6 +133,7 @@ router.get("/checkout", async function (req, res) {
       user: user.id,
     });
     const orderSaved = await newOrder.save();
+    req.session.cart=[];
   }
   res.redirect("/homepage");
 });
@@ -137,7 +143,7 @@ router.get("/my-journeys", async function (req, res) {
     .find({ user: req.session.userInfo.id })
     .populate("journey");
 
-  res.render("myjourneys", { myJourneys });
+  res.render("myjourneys", { myJourneys, session : req.session });
 });
 
 module.exports = router;
