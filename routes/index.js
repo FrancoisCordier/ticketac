@@ -23,7 +23,13 @@ const date = [
 ];
 
 router.get("/", function (req, res, next) {
-  res.render("index");
+  if (req.session.userInfo) {
+    console.log(req.session);
+    res.redirect("/homepage");
+  } else {
+    res.render("index");
+  }
+  
 });
 
 router.post("/sign-up", async function (req, res) {
@@ -43,7 +49,7 @@ router.post("/sign-up", async function (req, res) {
 
     const userSaved = await newUser.save();
 
-    req.session.userId = userSaved._id;
+    req.session.userInfo = {id: userSaved._id, firstName: userSaved.firstName, lastName: userSaved.lastName};
 
     res.redirect("/homepage");
   } else {
@@ -52,11 +58,21 @@ router.post("/sign-up", async function (req, res) {
 });
 
 router.post("/sign-in", async function (req, res) {
-  res.redirect("/homepage");
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const userExist = await userModel.findOne({ email: email, password : password });
+
+  if(userExist){
+    req.session.userInfo = {id: userExist._id, firstName: userExist.firstName, lastName: userExist.lastName};
+    res.redirect("/homepage");
+  }else{
+    res.redirect("/");
+  }
 });
 
 router.get("/homepage", async function (req, res) {
-  if (req.session.userId) {
+  if (req.session.userInfo) {
     console.log(req.session);
     res.render("homepage");
   } else {
