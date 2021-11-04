@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const journeyModel = require("../models/journeys");
+const userModel = require("../models/users");
+const orderModel = require("../models/orders");
 
 const city = [
   "Paris",
@@ -22,6 +24,20 @@ const date = [
 
 router.get("/", function (req, res, next) {
   res.render("index");
+});
+
+router.post("/sign-up", async function(req, res){
+
+  res.redirect("/homepage");
+});
+
+router.post("/sign-in", async function(req, res){
+  
+  res.redirect("/homepage");
+});
+
+router.get("/homepage", async function(req, res){
+  res.render("homepage");
 });
 
 module.exports = router;
