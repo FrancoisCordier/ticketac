@@ -88,7 +88,7 @@ router.post("/search", async function (req, res) {
     arrival: to,
     date: date,
   });
-  //console.log(results);
+
   res.render("searchresult", { results, session: req.session.userInfo, date });
 });
 
@@ -118,23 +118,26 @@ router.get("/cart", function (req, res) {
   res.render("cart", { session, myCart, totalCart });
 });
 
-router.get("/checkout", async function(req, res){
-
+router.get("/checkout", async function (req, res) {
   const myCart = req.session.cart;
   const user = req.session.userInfo;
 
-  for(let item of myCart ){
+  for (let item of myCart) {
     var newOrder = await orderModel({
       journey: item._id,
       user: user.id,
     });
-    const orderSaved = await newOrder.save()
-
-    console.log(orderSaved);
-  };
-  
-
+    const orderSaved = await newOrder.save();
+  }
   res.redirect("/homepage");
+});
+
+router.get("/my-journeys", async function (req, res) {
+  const myJourneys = await orderModel
+    .find({ user: req.session.userInfo.id })
+    .populate("journey");
+
+  res.render("myjourneys", { myJourneys });
 });
 
 module.exports = router;
