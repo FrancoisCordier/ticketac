@@ -12,7 +12,13 @@
     </a>
     <div>
       <div class="navbar-nav">
-        <a class="nav-link fw-bold">Connection</a>
+        <% 
+          let connect = session ? "Sign out" : ""; %>
+        <% if (connect === "Sign out") { %>  
+        <a href="/sign-out" class="nav-link fw-bold">
+          <%= connect %>
+        </a>
+        <% } %>
         <a class="nav-link fw-bold">My last trips</a>
       </div>
     </div>

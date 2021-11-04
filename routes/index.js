@@ -27,9 +27,10 @@ router.get("/", function (req, res, next) {
     console.log(req.session);
     res.redirect("/homepage");
   } else {
-    res.render("index");
+    res.render("index", { session: req.session.userInfo });
   }
-  
+
+  console.log(req.session);
 });
 
 router.post("/sign-up", async function (req, res) {
@@ -49,7 +50,11 @@ router.post("/sign-up", async function (req, res) {
 
     const userSaved = await newUser.save();
 
-    req.session.userInfo = {id: userSaved._id, firstName: userSaved.firstName, lastName: userSaved.lastName};
+    req.session.userInfo = {
+      id: userSaved._id,
+      firstName: userSaved.firstName,
+      lastName: userSaved.lastName,
+    };
 
     res.redirect("/homepage");
   } else {
@@ -61,20 +66,32 @@ router.post("/sign-in", async function (req, res) {
   const email = req.body.email;
   const password = req.body.password;
 
-  const userExist = await userModel.findOne({ email: email, password : password });
+  const userExist = await userModel.findOne({
+    email: email,
+    password: password,
+  });
 
-  if(userExist){
-    req.session.userInfo = {id: userExist._id, firstName: userExist.firstName, lastName: userExist.lastName};
+  if (userExist) {
+    req.session.userInfo = {
+      id: userExist._id,
+      firstName: userExist.firstName,
+      lastName: userExist.lastName,
+    };
     res.redirect("/homepage");
-  }else{
+  } else {
     res.redirect("/");
   }
+});
+
+router.get("/sign-out", function (req, res) {
+  req.session.destroy();
+  res.redirect("/");
 });
 
 router.get("/homepage", async function (req, res) {
   if (req.session.userInfo) {
     console.log(req.session);
-    res.render("homepage");
+    res.render("homepage", { session: req.session.userInfo });
   } else {
     res.redirect("/");
   }
