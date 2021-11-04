@@ -4,24 +4,6 @@ const journeyModel = require("../models/journeys");
 const userModel = require("../models/users");
 const orderModel = require("../models/orders");
 
-const city = [
-  "Paris",
-  "Marseille",
-  "Nantes",
-  "Lyon",
-  "Rennes",
-  "Melun",
-  "Bordeaux",
-  "Lille",
-];
-const date = [
-  "2018-11-20",
-  "2018-11-21",
-  "2018-11-22",
-  "2018-11-23",
-  "2018-11-24",
-];
-
 router.get("/", function (req, res, next) {
   if (req.session.userInfo) {
     console.log(req.session);
@@ -29,8 +11,16 @@ router.get("/", function (req, res, next) {
   } else {
     res.render("index", { session: req.session.userInfo });
   }
-
   console.log(req.session);
+});
+
+router.get("/homepage", async function (req, res) {
+  if (req.session.userInfo) {
+    console.log(req.session);
+    res.render("homepage", { session: req.session.userInfo });
+  } else {
+    res.redirect("/");
+  }
 });
 
 router.post("/sign-up", async function (req, res) {
@@ -88,14 +78,12 @@ router.get("/sign-out", function (req, res) {
   res.redirect("/");
 });
 
-router.get("/homepage", async function (req, res) {
-  if (req.session.userInfo) {
-    console.log(req.session);
-    res.render("homepage", { session: req.session.userInfo });
-  } else {
-    res.redirect("/");
-  }
-  
+router.post("/search", async function (req, res) {
+  const from = req.body.from;
+  const to = req.body.to;
+  const date = new Date(req.body.date);
+
+  console.log(date);
 });
 
 module.exports = router;
