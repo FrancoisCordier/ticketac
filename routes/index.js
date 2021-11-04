@@ -95,15 +95,18 @@ router.post("/search", async function (req, res) {
 router.get("/add-to-cart", async function (req, res) {
   const journeyId = req.query.resultId;
 
+  const date = await journeyModel.findOne({_id: journeyId}).date;
+
   if (req.session.cart) {
     req.session.cart.push(await journeyModel.findOne({ _id: journeyId }));
+    
   } else {
     req.session.cart = [];
     req.session.cart.push(await journeyModel.findOne({ _id: journeyId }));
   }
 
   console.log(req.session);
-  res.render("cart");
+  res.render("cart", {session: req.session, myCart: req.session.cart, date});
 });
 
 module.exports = router;
