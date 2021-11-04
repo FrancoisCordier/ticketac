@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,41 +10,90 @@
   <link href="stylesheets/style.css" rel="stylesheet" />
   <title>Document</title>
 </head>
+
 <body>
-  
+
   <%- include("navbar.ejs") %>
 
-  <div class="container">
-    <div class="row d-flex flex-column justify-content-center align-items-center">
-      <div class="row mt-5 mb-3 w-50 p-0">
-        <h2 class="text-white p-0">My ticket :</h2>
+    <div class="container">
+      <div class="row d-flex flex-column justify-content-center align-items-center">
+        <div class="row mt-5 mb-3 w-50 p-0">
+          <h2 class="text-white p-0">My ticket :</h2>
+        </div>
+        <table class="table table-light">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Journeys</th>
+              <th scope="col">Date</th>
+              <th scope="col">Departure time</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let i=0; i<myCart.length; i++) {%>
+              <tr>
+                <th scope="row">
+                  <%= i + 1 %>
+                </th>
+                <td>
+                  <%= myCart[i].departure %>/<%= myCart[i].arrival%>
+                </td>
+                <td>
+                  <%= new Date(myCart[i].date).getDate() %>/<%= new Date(myCart[i].date).getMonth()+1 %>/<%= new
+                        Date(myCart[i].date).getFullYear() %>
+                </td>
+                <td>
+                  <%= myCart[i].departureTime %>
+                </td>
+                <td>
+                  <%= myCart[i].price %>€
+                </td>
+              </tr>
+              <% } %>
+          </tbody>
+          <tfoot>
+            <tr class="table-danger">
+              <th class="fw-bold fs-4">Total</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>
+                <%= totalCart %>€
+              </th>
+            </tr>
+          </tfoot>
+        </table>
       </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Journeys</th>
-            <th scope="col">Date</th>
-            <th scope="col">Departure time</th>
-            <th scope="col">Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% for(let i=0; i<myCart.length; i++) {%> 
-          <tr>
-            <th scope="row"><%=i+1%></th>
-            <td><%= myCart[i].departure %>/<%= myCart[i].arrival%></td>
-            <td><%= date.getDate()%>/<%= date.getMonth()+1%>/<%=date.getFullYear()%></td>
-            <td><%= myCart[i].departureTime %></td>
-            <td><%= myCart[i].price %>€</td>
-          </tr>
-          <% } %> 
-        </tbody>
-      </table>
+      <div class="text-end">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          Checkout
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+          aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"></script>
 </body>
+
 </html>
