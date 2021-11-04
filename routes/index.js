@@ -89,7 +89,7 @@ router.post("/search", async function (req, res) {
     date: date,
   });
   //console.log(results);
-  res.render("searchresult", { results, session: req.session.userInfo });
+  res.render("searchresult", { results, session: req.session.userInfo, date });
 });
 
 router.get("/add-to-cart", async function (req, res) {
