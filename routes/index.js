@@ -95,6 +95,7 @@ router.get("/homepage", async function (req, res) {
   } else {
     res.redirect("/");
   }
+  
 });
 
 module.exports = router;
