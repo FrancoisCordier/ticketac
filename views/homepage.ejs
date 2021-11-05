@@ -17,20 +17,30 @@
 		<div class="container mt-5">
 			<div class="row d-flex">
 				<form method="post" action="/search"
-					class="row row-cols-md-auto g-3 align-items-center justify-content-center text-white">
-					<div class="col-md-3 mb-3">
-						<label for="examplefrom" class="form-label fw-bold">From</label>
-						<input type="text" class="form-control" name="from" id="examplefrom" value="Paris"/>
+					class="row row-cols-md-auto g-3 align-items-center justify-content-center text-black">
+					<div class="form-floating mb-3 col-md-3">
+						<input type="text" class="form-control" id="floatingInputFrom" list="datalistOptions" name="from" placeholder="Type to search...">
+						<datalist id="datalistOptions">
+							<% for (let city of citiesList) { %>
+							<option value="<%= city %>">
+							<% } %>
+						</datalist>
+						<label class="text-muted fw-bold" for="floatingInputFrom">From</label>
 					</div>
-					<div class="col-md-3 mb-3">
-						<label for="exampleTo" class="form-label fw-bold">To</label>
-						<input type="text" class="form-control" name="to" id="exampleTo" value="Lyon"/>
+					<div class="form-floating mb-3 col-md-3">
+						<input type="text" class="form-control" id="floatingInputTo" list="datalistOptions" name="to" placeholder="Type to search...">
+						<datalist id="datalistOptions">
+							<% for (let city of citiesList) { %>
+							<option value="<%= city %>">
+							<% } %>
+						</datalist>
+						<label class="text-muted fw-bold" for="floatingInputTo">To</label>
 					</div>
-					<div class="col-md-3 mb-3">
-						<label for="exampleDate" class="form-label fw-bold">Date</label>
-						<input type="date" class="form-control" name="date" id="exampleDate" value="2018-11-22">
+					<div class="form-floating mb-3 col-md-3">
+						<input type="date" class="form-control" id="floatingInputDate" name="date" placeholder="Type to search...">
+						<label class="text-muted fw-bold" for="floatingInputDate">Date</label>
 					</div>
-						<button type="submit" class="btn btn-danger">Search</button>
+						<button type="submit" class="btn btn-lg btn-danger mt-0">Search</button>
 				</form>
 			</div>
 			<div class="row d-flex justify-content-center mt-5">

@@ -12,15 +12,18 @@
     </a>
     <div>
       <div class="navbar-nav">
+        <% if (session) { %>
+          <a href="/my-journeys" class="nav-link fw-bold">My last trips</a>
+          <% } %>
         <% 
           let connect = session ? "Sign out" : ""; %>
         <% if (connect === "Sign out") { %>  
         <a href="/sign-out" class="nav-link fw-bold">
-          <%= connect %>
+          <%= connect %> <i class="fas fa-sign-out-alt"></i>
         </a>
         <% } %>
-        <a href="/my-journeys" class="nav-link fw-bold">My last trips</a>
       </div>
     </div>
   </div>
 </nav>
+<script src="https://kit.fontawesome.com/e7fc5f269c.js" crossorigin="anonymous"></script>
